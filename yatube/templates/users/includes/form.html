@@ -1,0 +1,18 @@
+{% include 'includes/enter_errors.html' %}
+<form method="post"
+{% if action_url %}
+    action="{% url action_url %}"
+{% endif %}
+>
+{% include 'includes/draw_form.html' %}
+  <div class="col-md-6 offset-md-4">
+    {% if text_submit %}
+      <button type="submit" class="btn btn-primary">
+        {{ text_submit }}
+      </button>
+    {% endif %}
+    {% if add_link_adress %}
+      <a href="{{ add_link_adress }}" class="btn btn-link">{{ add_link_text }}</a>
+    {% endif %}
+  </div>
+</form>

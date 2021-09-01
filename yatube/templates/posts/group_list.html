@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+{% block title %}
+  Записи сообщества {{ group.title }}
+{% endblock %}
+{% block content %}
+  <div class="container">
+    <h1>{{ group.title }}</h1>
+    <p>{{ group.description }}</p>
+    {% for post in page_obj %}
+      <div class="row">
+        <article class="col-5">
+          <ul>
+            <li>
+              Автор: {{ post.author.get_full_name }}
+              {% url 'post:profile' post.author.username as url_temp %}
+              <a href="{{ url_temp }}">все посты пользователя</a>            
+            </li>
+            <li>
+              Дата публикации: {{ post.pub_date|date:"d E Y" }}
+            </li>
+            <li>
+              Дата редактирования: {{ post.exch_date|date:"d E Y" }}
+            </li>
+          </ul>
+          <p>{{ post.text|linebreaks }}</p>
+          {% url 'post:post_detail' post.pk as url_temp %}
+          <a href="{{ url_temp }}">подробная информация</a>
+          {% if post.group %}
+            {% url 'post:group_list' post.group.slug as url_temp %}
+            <br><a href="{{ url_temp }}">Все записи группы: <strong>{{ post.group.title }}</strong></a>
+          {% else %}
+            <br><strong>Пост не принадлежит никакой группе</strong>          
+          {% endif %}
+        </article>
+        <div class="col-7">
+          {% thumbnail post.image "x200" as im %}
+            <img src="{{ im.url }}">
+          {% endthumbnail %}      
+        </div>
+      </div>
+      {% if not forloop.last %}<hr>{% endif %}
+    {% endfor %}
+  </div>
+  {% include 'posts/includes/paginator.html' %}
+{% endblock %}
