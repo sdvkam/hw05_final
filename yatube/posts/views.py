@@ -126,10 +126,10 @@ def follow_index(request):
 @login_required
 def profile_follow(request, username):
     # Подписаться на автора
-    if username == str(request.user):
-        raise Http404("Page does not exist")
+    current_user = get_object_or_404(User, username=request.user.username)
+    if username == current_user.username:
+        raise Http404("Нельзя подписатья на самого себя")
     author = get_object_or_404(User, username=username)
-    current_user = get_object_or_404(User, username=request.user)
     if Follow.objects.filter(user=current_user, author=author).count() == 0:
         Follow.objects.create(user=current_user, author=author)
     return redirect('post:follow_index')
@@ -138,10 +138,10 @@ def profile_follow(request, username):
 @login_required
 def profile_unfollow(request, username):
     # Дизлайк, отписка
-    if username == str(request.user):
-        raise Http404("Page does not exist")
+    current_user = get_object_or_404(User, username=request.user.username)
+    if username == current_user.username:
+        raise Http404("Нельзя отписаться от себя")
     author = get_object_or_404(User, username=username)
-    current_user = get_object_or_404(User, username=request.user)
     if Follow.objects.filter(user=current_user, author=author).count() > 0:
         Follow.objects.filter(user=current_user, author=author).delete()
     return redirect('post:follow_index')
