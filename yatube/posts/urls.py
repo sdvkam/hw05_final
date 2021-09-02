@@ -15,7 +15,7 @@ urlpatterns = [
     path('create/', views.post_create, name='post_create'),
     path('follow/', views.follow_index, name='follow_index'),
     path(
-        'profile/<str:username>/follow/',
+        'profile/<username>/follow/',
         views.profile_follow,
         name='profile_follow'
     ),
