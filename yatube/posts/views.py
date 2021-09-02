@@ -128,7 +128,7 @@ def profile_follow(request, username):
     # Подписаться на автора
     current_user = get_object_or_404(User, username=request.user.username)
     if username == current_user.username:
-        raise Http404("Нельзя подписатья на самого себя")
+        return redirect('post:follow_index')
     author = get_object_or_404(User, username=username)
     if Follow.objects.filter(user=current_user, author=author).count() == 0:
         Follow.objects.create(user=current_user, author=author)
@@ -140,7 +140,7 @@ def profile_unfollow(request, username):
     # Дизлайк, отписка
     current_user = get_object_or_404(User, username=request.user.username)
     if username == current_user.username:
-        raise Http404("Нельзя отписаться от себя")
+        return redirect('post:follow_index')
     author = get_object_or_404(User, username=username)
     if Follow.objects.filter(user=current_user, author=author).count() > 0:
         Follow.objects.filter(user=current_user, author=author).delete()
