@@ -11,8 +11,6 @@ from django.urls import reverse
 from ..models import Group, Post
 
 User = get_user_model()
-# Создаем временную папку для медиа-файлов;
-# на момент теста медиа папка будет переопределена
 TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=settings.BASE_DIR)
 
 

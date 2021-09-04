@@ -108,3 +108,15 @@ class Follow(models.Model):
         verbose_name='Избранный автор',
         help_text='Выберите автора, на которого вы хотите подписаться'
     )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'author'], name='unique_follow')
+        ]
+
+    def save(self, *args, **kwargs):
+        if self.user == self.author:
+            return
+        else:
+            super().save(*args, **kwargs)

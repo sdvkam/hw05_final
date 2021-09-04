@@ -42,7 +42,7 @@
       {% endthumbnail %}
       <p>{{ post.text|linebreaks }}</p>
       {% if post.author.username == user.username %}
-        <a class="btn btn-primary" href="/posts/{{ post.pk }}/edit">
+        <a class="btn btn-primary" href="{% url 'post:post_edit' post.pk %}">
           редактировать запись
         </a>
       {% endif %}

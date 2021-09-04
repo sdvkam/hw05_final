@@ -9,7 +9,8 @@ from .utils import page_from_paginator
 
 def index(request):
     template = 'posts/index.html'
-    page_obj = page_from_paginator(Post.objects.all(), request.GET.get('page'))
+    page_obj = page_from_paginator(Post.objects.select_related(
+        'author', 'group').all(), request.GET.get('page'))
     context = {
         'page_obj': page_obj,
     }
@@ -19,7 +20,9 @@ def index(request):
 def group_posts(request, slug):
     template = 'posts/group_list.html'
     group = get_object_or_404(Group, slug=slug)
-    page_obj = page_from_paginator(group.posts.all(), request.GET.get('page'))
+    page_obj = page_from_paginator(
+        group.posts.select_related(
+            'author', 'group').all(), request.GET.get('page'))
     context = {
         'group': group,
         'page_obj': page_obj,
@@ -30,13 +33,13 @@ def group_posts(request, slug):
 def profile(request, username):
     template = 'posts/profile.html'
     author = get_object_or_404(User, username=username)
-    page_obj = page_from_paginator(author.posts.all(), request.GET.get('page'))
+    page_obj = page_from_paginator(
+        author.posts.select_related(
+            'author', 'group').all(), request.GET.get('page'))
     if request.user.is_authenticated:
         current_user = get_object_or_404(User, username=request.user)
-        if Follow.objects.filter(user=current_user, author=author).count() > 0:
-            following = True
-        else:
-            following = False
+        following = Follow.objects.filter(
+            user=current_user, author=author).exists()
     else:
         following = False
     context = {
@@ -110,37 +113,30 @@ def add_comment(request, post_id):
 
 @login_required
 def follow_index(request):
-    # информация о текущем пользователе доступна в переменной request.user
     current_user = get_object_or_404(User, username=request.user)
-    a = Follow.objects.values('author_id').filter(user_id=current_user.id)
-    b = []
-    for i in range(a.count()):
-        b.append(a[i]['author_id'])
-    c = Post.objects.select_related('author').filter(author_id__in=b)
-    page_obj = page_from_paginator(c, request.GET.get('page'))
+    list_posts_selected_authors = Post.objects.select_related(
+        'author', 'group').filter(
+            author_id__in=Follow.objects.values('author_id').filter(
+                user_id=current_user.id))
+    page_obj = page_from_paginator(
+        list_posts_selected_authors, request.GET.get('page'))
     context = {'page_obj': page_obj}
     return render(request, 'posts/follow.html', context)
 
 
 @login_required
 def profile_follow(request, username):
-    # Подписаться на автора
+    # subscribe to author "username"
     current_user = get_object_or_404(User, username=request.user.username)
-    if username == current_user.username:
-        return redirect('post:follow_index')
     author = get_object_or_404(User, username=username)
-    if Follow.objects.filter(user=current_user, author=author).count() == 0:
-        Follow.objects.create(user=current_user, author=author)
+    Follow.objects.get_or_create(user=current_user, author=author)
     return redirect('post:follow_index')
 
 
 @login_required
 def profile_unfollow(request, username):
-    # Дизлайк, отписка
+    # Dislike, unsubscribe from author "username"
     current_user = get_object_or_404(User, username=request.user.username)
-    if username == current_user.username:
-        return redirect('post:follow_index')
     author = get_object_or_404(User, username=username)
-    if Follow.objects.filter(user=current_user, author=author).count() > 0:
-        Follow.objects.filter(user=current_user, author=author).delete()
+    Follow.objects.filter(user=current_user, author=author).delete()
     return redirect('post:follow_index')

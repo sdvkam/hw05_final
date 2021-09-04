@@ -7,23 +7,7 @@
     <div class="mb-5">
       <h1>Все посты пользователя {{ author.get_full_name }}</h1>
       <h3>Всего постов: {{ author.posts.all.count }} </h3>
-      {% if user.is_authenticated and author.username != user.get_username %}
-        {% if following %}
-          <a
-            class="btn btn-lg btn-secondary"
-            href="{% url 'post:profile_unfollow' author.username %}" role="button"
-          >
-            Отписаться
-          </a>
-        {% else %}
-            <a
-              class="btn btn-lg btn-primary"
-              href="{% url 'post:profile_follow' author.username %}" role="button"
-            >
-              Подписаться
-            </a>
-        {% endif %}
-      {% endif %}
+      {% include 'posts/includes/panel_follow.html' %}
      </div> 
     {% include 'posts/includes/list_posts.html' %}
   </div>

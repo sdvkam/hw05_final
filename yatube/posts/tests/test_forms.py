@@ -52,7 +52,6 @@ class PostCreateFormTests(TestCase):
             content=small_gif,
             content_type='image/gif'
         )
-        # folder where save pictures by defuault
         cls.folder_for_pics = Post._meta.get_field('image').upload_to
         cls.authorized_author = Client()
         cls.authorized_author.force_login(cls.author)
