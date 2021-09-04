@@ -115,9 +115,7 @@ def add_comment(request, post_id):
 def follow_index(request):
     current_user = get_object_or_404(User, username=request.user)
     list_posts_selected_authors = Post.objects.select_related(
-        'author', 'group').filter(
-            author_id__in=Follow.objects.values('author_id').filter(
-                user_id=current_user.id))
+        'author', 'group').filter(author__following__user=current_user).all()
     page_obj = page_from_paginator(
         list_posts_selected_authors, request.GET.get('page'))
     context = {'page_obj': page_obj}
