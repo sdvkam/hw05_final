@@ -81,6 +81,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 # Добавлен конеткст-процессор
                 'core.context_processors.year.year',
+                'core.context_processors.admin_email.admin_email',
             ],
         },
     },
@@ -145,10 +146,20 @@ LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'post:index'
 # LOGOUT_REDIRECT_URL = 'post:index'
 
-#  подключаем движок filebased.EmailBackend
-EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+# движок filebased.EmailBackend for save letter to folder EMAIL_FILE_PATH
+# EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_PORT = 2525
+EMAIL_HOST_USER = "sdvkam_admim@mail.ru"
+EMAIL_HOST_PASSWORD = "xmqHDezOR7PTbtbZK7ss"
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+SERVER_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
 # указываем директорию, в которую будут складываться файлы писем
-EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
+# EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
 
 CSRF_FAILURE_VIEW = 'core.views.csrf_failure'
 

@@ -2,30 +2,37 @@
 {% block title %}Технологии{% endblock %}
 {% block content %}
 {% comment %} Колонки с отступом сверху и снизу {% endcomment %}
-<div class="row">
-  <h1>Вот что я умею</h1>
-  {% comment %}
-    Боковой блок со списком технологий 
-    Займет всю ширину блока на мобильном
-    и 25% при размерах экрана ≥768px
-  {% endcomment %}
+<div class="container row">
+  <p class="text-center fs-1">5 сентября 2021 года я сделал очередные поправки в коде и ревьювер сказа: Все, достаточно!</p>
+  <p class="text-end fs-2">Ура! Тема: <strong>Бэкенд на Django</strong> пройдена! Первый сайт готов.</p>
+  <p>Для написания этого сайта использовалось:</p>
   <aside class="col-12 col-md-3">
     <ul class="list-group list-group-flush">
       <li class="list-group-item">
         Python
       </li>
       <li class="list-group-item">
+          OOP
+      </li>
+      <li class="list-group-item">
+        Git, VSCode
+      </li>
+      <li class="list-group-item">
         Django
+      </li>
+      <li class="list-group-item">
+        SQL-lite
+      </li>
+      <li class="list-group-item">
+        Bootstrap
+      </li>
+      <li class="list-group-item">
+        Unittest
       </li>
     </ul>
   </aside>
-  {% comment %}
-    Статья  
-    Займет всю ширину блока на мобильном
-    и 75% при размерах экрана ≥768px
-  {% endcomment %}
   <article class="col-12 col-md-9">
-    <p>Текст страницы "Технологии"</p>
+    <p class="text-center fs-1 fw-weight-bold text-decoration-underline">Технологии и труд все перетрут</p>
   </article>
 </div>
 {% endblock %}
