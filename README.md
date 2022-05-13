@@ -1,3 +1,58 @@
-# hw05_final
+## Сервис для публикации личных дневников
 
-[![CI](https://github.com/yandex-praktikum/hw05_final/actions/workflows/python-app.yml/badge.svg?branch=master)](https://github.com/yandex-praktikum/hw05_final/actions/workflows/python-app.yml)
+### 1. Вы можете:
+ - создать свой дневник для ведения личных заметок или любых других записей
+ - ваши заметки публичны (видны всем)
+ - можно можно добавить картинку в свою заметку
+ - включить заметку в группу по интересам
+ - редактировать свои заметки
+ - просматривать чужие дневники (все дневники публичны)
+ - подписываться на разных авторов и комментирвать их записи
+ - модерация пользователей, создание новых групп по интересам происходит через админку Django
+ 
+### 2. Как запустить проект:
+
+Клонирование репозитория и перейти в него в командной строке:
+```
+git clone https://github.com/sdvkam/hw05_final.git
+```
+```
+cd hw05_final
+```
+Cоздать и активировать виртуальное окружение:
+```
+python3 -m venv env
+```
+```
+source env/bin/activate
+```
+Обновить pip - система установки пакетов в языке Python
+```
+python3 -m pip install --upgrade pip
+```
+Установить зависимости из файла requirements.txt:
+```
+pip install -r requirements.txt
+```
+Подготовить и выполнить миграции:
+```
+python3 manage.py makemigrations
+```
+```
+python3 manage.py migrate
+```
+Запустить проект:
+```
+python3 manage.py runserver
+```
+### 3. Ссылка на работающий проект:
+http://sdvkam.pythonanywhere.com
+
+### 4. Технологии
+- Python 3.7
+- Django 2.2
+- SQLite
+- Bootstrap
+- Unittest
+- Pillow
+- Sorl-Thumbnail
