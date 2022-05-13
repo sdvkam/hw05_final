@@ -53,6 +53,6 @@ http://sdvkam.pythonanywhere.com
 - Django 2.2
 - SQLite
 - Bootstrap
-- Unittest
 - Pillow
 - Sorl-Thumbnail
+- Unittest
